@@ -1,3 +1,3 @@
 int main(){
-	³ucja
+	lucja ma  malego kutasa
 }

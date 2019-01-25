@@ -52,10 +52,18 @@ vector<double> KinOdw(double px, double py, double pz)
 	double m = (pz - a) / (pr - l1);
 	double betakin = acos((pr - l1) / c);
 
+	double d = z-a;
+	double l = (pr*pr)+(d*d);
+	l = sqrt(l);
+	double beta = acos(((l*l)+(pr*pr)-(d*d))/(2*l*pr));
+	double alfa = acos(((l2*l2)+(l*l)-(l3*l3))/(2*l2*l));
+
 	//Od teraz nas interesuje
 	T[0] = atan2(py, px);//jeden kat
-	if(pr-l1>=0)T[1] = alfakin+betakin;
-	else if(pr-l1<0)T[1] = alfakin-PI+betakin;
+	if(z>a)T[1] = (PI/2)-alfa-beta;
+	else if(z<a)T[1] = (PI/2)-alfa+beta;
+	else if(z=a)T[1]=PI/2;
+	//jkafkafhkfhfhskfhksjfjfksfhskjfhjskfhjskfhskjfhkjsfh
 	T[2] = ((c*c) - (l2*l2) - (l3*l3)) / (2 * (l2*l3));
 	T[2] = acos(T[2]);//trzeci
 

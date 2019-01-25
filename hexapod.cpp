@@ -51,21 +51,13 @@ vector<double> KinOdw(double px, double py, double pz)
 	double alfakin = acos(k);
 	double m = (pz - a) / (pr - l1);
 	double betakin = acos((pr - l1) / c);
-	double pa = (pr-l1)*(pr-l1)+(z-a)*(z-a);
-	pa = sqrt(pa);
-	double p = (l2+l3+pa)/2;
-	double pole = p*(p-l2)*(p-l3)*(p-pa);
-	pole = sqrt(pole);
-	double R = pa*l2*l3/(4*pole);
-	double kat1 = asin(l3/(2*R));
-	double kat2 = atan2(pr-l1,a);
-
 
 	//Od teraz nas interesuje
 	T[0] = atan2(py, px);//jeden kat
+	if(pr-l1>=0)T[1] = alfakin+betakin;
+	else if(pr-l1<0)T[1] = alfakin-PI+betakin;
 	T[2] = ((c*c) - (l2*l2) - (l3*l3)) / (2 * (l2*l3));
 	T[2] = acos(T[2]);//trzeci
-	T[1] = PI-kat1-kat2;
 
 
     //zamiana na stopnie

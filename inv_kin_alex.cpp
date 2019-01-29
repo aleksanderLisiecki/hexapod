@@ -24,15 +24,8 @@ double theta3(double x, double y);
 
 int main(){
     vector<double> v;
+	vector<double> katy;
     double x, y, z;
-/*
-    for(int iy=0; iy<=270; iy+5){
-        for(int ix=0; ix<=270; ix+5){
-            inv_kin(ix, iy);
-        }
-        cout << endl;
-    }
-*/
 
     do{
     cout << "Podaj x, y, z " << endl <<"x: ";
@@ -48,7 +41,10 @@ int main(){
         cout << "!!!UWAGA!!! dlugosc ramienia jest wieksza niz 270" << endl;
     }
 
-    inv_kin(x, y, z);
+	katy = inv_kin(x, y, z);
+    debug(katy[0])
+debug(katy[1])
+debug(katy[2])
     }while(1);
 
 
@@ -64,6 +60,7 @@ vector<double> inv_kin(double x, double y, double z){
     vector<double> vct_inv_kin;
     vct_inv_kin.push_back(t1);
     vct_inv_kin.push_back(t2);
+	vct_inv_kin.push_back(t3);
 
     cout << "theta1: " << t1 << endl << "theta2: " << t2 << endl << "theta3: " << t3 << endl;
 
@@ -71,7 +68,10 @@ vector<double> inv_kin(double x, double y, double z){
         cout << "UWAGA!!! - kat wiekszy niz 180" << endl;
     }
 
-    //return vct_inv_kin;
+
+
+
+    return vct_inv_kin;
 }
 
 double theta1(double r, double z, double theta2){

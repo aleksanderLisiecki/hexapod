@@ -4,6 +4,8 @@
 
 #define PI 3.14159265
 
+#define sprawdzanie_zera(zero) (zero==0 ? (zero = 1e-10):(zero))
+
 #define debug(str) do { std::cout << "debug: " << str << std::endl; } while( false );
 //to print debug message use: "debug('message')"
 
@@ -30,10 +32,13 @@ int main(){
     do{
     cout << "Podaj x, y, z " << endl <<"x: ";
     cin >> x;
+    sprawdzanie_zera(x);
     cout << "y: ";
     cin >> y;
+    sprawdzanie_zera(y);
     cout << "z: ";
     cin >> z;
+    sprawdzanie_zera(z);
     double odleglosc_wspolrzednych= sqrt((x*x)+(y*y)+(z*z));
     if(odleglosc_wspolrzednych < 90){
         cout << "!!!UWAGA!!! dlugosc ramienia jest mniejsza niz 90" << endl;
@@ -42,9 +47,35 @@ int main(){
     }
 
 	katy = inv_kin(x, y, z);
-    debug(katy[0])
-debug(katy[1])
-debug(katy[2])
+
+
+//kinematyka prosta w celu sprawdzenia kinematyki odwrotnej ________________________________________________________________________________
+    double theta1 = (katy[0]) * (PI/180.0);
+    double theta2 = (180 - katy[1]) * (PI/180.0);
+    double theta3 = (katy[2]) * (PI/180.0);
+
+    debug("t1: " << theta1)
+    debug("sin(t1): " << sin(theta1))
+    //obliczanie "kolana"
+    double k_y = sin(theta1) * a;
+    double k_z = cos(theta1) * a;
+    debug("k_y: " << k_y)
+    debug("k_z: " << k_z)
+
+    double pomocnicza_alfa = theta1 + theta2 - PI;
+
+    debug("pomocnicza alfa: " << pomocnicza_alfa)
+    debug("theta3: " << theta3)
+
+    debug("wtorne y: " << (k_y + (sin(pomocnicza_alfa) * b)) / sin(theta3) )
+
+
+
+
+//kinematyka prosta w celu sprawdzenia kinematyki odwrotnej ________________________________________________________________________________
+
+
+
     }while(1);
 
 
@@ -53,9 +84,13 @@ debug(katy[2])
 
 vector<double> inv_kin(double x, double y, double z){
     double t1;
-    double t2 = theta2(y, z);
+    double t2;
     double t3 = theta3(x, y);
-    t1 = theta1(y, z, t2);
+debug("t3: " << t3)
+    double r = sin(t3*PI/180.0) * y;
+debug("r: " << r)
+    t2 = theta2(r, z);
+    t1 = theta1(r, z, t2);
 
     vector<double> vct_inv_kin;
     vct_inv_kin.push_back(t1);
@@ -67,9 +102,6 @@ vector<double> inv_kin(double x, double y, double z){
     if(t1 > 180 || t2 > 180 || t3 > 180){
         cout << "UWAGA!!! - kat wiekszy niz 180" << endl;
     }
-
-
-
 
     return vct_inv_kin;
 }
@@ -95,10 +127,9 @@ double theta2(double r, double z){
     double theta2_acos_mianownik = 2 * a * b;
     return (acos(theta2_acos_licznik / theta2_acos_mianownik)) * (180.0) / PI;
 }
-//na razie theta tylko dla polowki dodatniej polowki x (z katami 90-180)
+
 double theta3(double x, double y){
     if(x<0){
-            debug(abs(atan(y/x)))
         return abs(atan(y/x)) * (180.0) / PI;
     }else{
         return 90 + (atan(x/y) * (180.0) / PI);
